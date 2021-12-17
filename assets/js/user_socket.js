@@ -67,9 +67,16 @@ chatInput.addEventListener("keypress", event => {
   }
 })
 
+function resetText() {
+  let messageItem = document.createElement("p");
+  messageItem.innerText = '';
+  setInterval(resetText, 2000);
+}
+
+setInterval(resetText, 2000)
 
 channel.on("new_msg", payload => {
-  console.log('Received: ', payload);
+  // console.log('Received: ', payload);
   let messageItem = document.createElement("p")
   messageItem.innerText = `${payload.sym}, ${payload.price},  [${payload.beast_low} ${payload.beast_high}] [${payload.target}]`
   messagesContainer.appendChild(messageItem)
