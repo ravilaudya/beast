@@ -71,7 +71,7 @@ chatInput.addEventListener("keypress", event => {
 channel.on("new_msg", payload => {
   console.log('Received: ', payload);
   let messageItem = document.createElement("p")
-  messageItem.innerText = `[${Date()}] ${payload.time}`
+  messageItem.innerText = `[${Date()}] ${payload.sym}  ${payload.beast_low} ${payload.beast_high} ${payload.price}`
   messagesContainer.appendChild(messageItem)
 })
 
