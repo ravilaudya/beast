@@ -18,7 +18,8 @@ defmodule BeastWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/beast", BeastController, :index
+    get "/bbeast", BeastController, :index
+    live "/beast", BeastLive
   end
 
   # Other scopes may use custom stacks.
