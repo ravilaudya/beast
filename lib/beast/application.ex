@@ -13,9 +13,10 @@ defmodule Beast.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Beast.PubSub},
       # Start the Endpoint (http/https)
-      BeastWeb.Endpoint
+      BeastWeb.Endpoint,
       # Start a worker by calling: Beast.Worker.start_link(arg)
       # {Beast.Worker, arg}
+      {Beast.Polygon, ["WebSockex is Great"]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
