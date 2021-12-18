@@ -8,6 +8,8 @@ defmodule Beast.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # Start the Ecto repository
+      Beast.Repo,
       # Start the Telemetry supervisor
       BeastWeb.Telemetry,
       # Start the PubSub system
@@ -16,7 +18,7 @@ defmodule Beast.Application do
       BeastWeb.Endpoint,
       # Start a worker by calling: Beast.Worker.start_link(arg)
       # {Beast.Worker, arg}
-      {Beast.Polygon, ["WebSockex is Great"]}
+      {Beast.Polygon, ["Beast numbers are Great"]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

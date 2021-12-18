@@ -1,5 +1,14 @@
 import Config
 
+# Configure your database
+config :beast, Beast.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "beast_dev",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -13,7 +22,7 @@ config :beast, BeastWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "krBxWjd3Le0jDvJ3JtKsU/jeBJEktBVHV0opAexgrGDuLqV83gSigUSc2wXKFhVe",
+  secret_key_base: "UjEauz+PDcEJENRhJ7F+3vbcwcO4MQDMi/DYFCLpnxKDAa4YMre8vqnOgqL+W8fT",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}

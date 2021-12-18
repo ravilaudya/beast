@@ -7,12 +7,15 @@
 # General application configuration
 import Config
 
+config :beast,
+  ecto_repos: [Beast.Repo]
+
 # Configures the endpoint
 config :beast, BeastWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: BeastWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Beast.PubSub,
-  live_view: [signing_salt: "WzM0H8PW"]
+  live_view: [signing_salt: "RkJkpBSI"]
 
 # Configures the mailer
 #

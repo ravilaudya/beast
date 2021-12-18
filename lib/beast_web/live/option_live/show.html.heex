@@ -1,0 +1,51 @@
+<h1>Show Option</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.option_show_path(@socket, :show, @option)}>
+    <.live_component
+      module={BeastWeb.OptionLive.FormComponent}
+      id={@option.id}
+      title={@page_title}
+      action={@live_action}
+      option={@option}
+      return_to={Routes.option_show_path(@socket, :show, @option)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Symbol:</strong>
+    <%= @option.symbol %>
+  </li>
+
+  <li>
+    <strong>Strike:</strong>
+    <%= @option.strike %>
+  </li>
+
+  <li>
+    <strong>Expiration:</strong>
+    <%= @option.expiration %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @option.price %>
+  </li>
+
+  <li>
+    <strong>Beast low:</strong>
+    <%= @option.beast_low %>
+  </li>
+
+  <li>
+    <strong>Beast high:</strong>
+    <%= @option.beast_high %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.option_show_path(@socket, :edit, @option), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.option_index_path(@socket, :index) %></span>

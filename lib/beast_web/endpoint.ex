@@ -7,13 +7,10 @@ defmodule BeastWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_beast_key",
-    signing_salt: "BZHkIakY"
+    signing_salt: "1VdBSEvv"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
-  socket "/socket", BeastWeb.UserSocket,
-    websocket: true,
-    longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -31,6 +28,7 @@ defmodule BeastWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :beast
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

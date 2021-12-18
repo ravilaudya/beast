@@ -1,0 +1,22 @@
+<h1>Options</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.option_index_path(@socket, :index)}>
+    <.live_component
+      module={BeastWeb.OptionLive.FormComponent}
+      id={@option.id || :new}
+      title={@page_title}
+      action={@live_action}
+      option={@option}
+      return_to={Routes.option_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<div id="options">
+  <%= for option <- @options do %>
+    <%= live_component BeastWeb.OptionLive.OptionComponent, option: option %>
+  <% end %>
+</div>
+
+<span><%= live_patch "New Option", to: Routes.option_index_path(@socket, :new) %></span>
