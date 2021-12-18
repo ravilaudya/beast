@@ -30,7 +30,7 @@ defmodule BeastWeb.OptionLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Options")
+    |> assign(:page_title, "Beast Options")
     |> assign(:option, nil)
   end
 
@@ -40,6 +40,11 @@ defmodule BeastWeb.OptionLive.Index do
     {:ok, _} = Options.delete_option(option)
 
     {:noreply, assign(socket, :options, list_options())}
+  end
+  def handle_event("beast-range-only", _, socket) do
+    {:noreply, update(socket, :options, fn options->
+      Enum.filter(options, fn x -> x.price <= x.beast_low end)
+    end)}
   end
 
   @impl true

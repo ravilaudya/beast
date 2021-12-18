@@ -4,31 +4,20 @@ defmodule Beast.Polygon do
 
   def get_tickers() do
     tickers = [
-              %{symbol: "O:AAPL211217C00175000", stock: "AAPL", price: 0.0, beast_low: 0.48, beast_high: 0.63, target: [1.08, 1.38, 1.97, 2.7, 3.44]},
-              %{symbol: "O:AAPL211217P00165000", stock: "AAPL", price: 0.0, beast_low: 0.10, beast_high: 0.21, target: [0.33, 0.37, 0.45, 0.55, 0.65]},
               %{symbol: "O:AAPL211223C00175000", stock: "AAPL", price: 0.0, beast_low: 0.47, beast_high: 0.62, target: [3.25, 3.54, 4.11, 4.82, 5.52]},
               %{symbol: "O:AAPL211223C00180000", stock: "AAPL", price: 0.0, beast_low: 0.30, beast_high: 0.39, target: [1.71, 1.92, 2.36, 2.89, 3.43]},
               %{symbol: "O:AAPL211223P00160000", stock: "AAPL", price: 0.0, beast_low: 0.09, beast_high: 0.17, target: [0.75, 0.8, 0.89, 1, 1.1]},
               %{symbol: "O:AAPL211223P00165000", stock: "AAPL", price: 0.0, beast_low: 0.19, beast_high: 0.30, target: [1.63, 1.7, 1.86, 2.06, 2.26]},
 
-              %{symbol: "O:FB211217C00340000", stock: "FB", price: 0.0, beast_low: 0.68, beast_high: 0.88, target: [1.87, 2.32, 3.21, 4.32, 5.43]},
-              %{symbol: "O:FB211217C00342500", stock: "FB", price: 0.0, beast_low: 0.51, beast_high: 0.67, target: [1.23, 1.61, 2.36, 3.3, 4.23]},
-              %{symbol: "O:FB211217P00327500", stock: "FB", price: 0.0, beast_low: 0.46, beast_high: 0.78, target: [1.22, 1.6, 2.37, 3.32, 4.27]},
               %{symbol: "O:FB211223C00345000", stock: "FB", price: 0.0, beast_low: 0.55, beast_high: 0.71, target: [3.37, 3.76, 4.53, 5.48, 6.43]},
               %{symbol: "O:FB211223C00350000", stock: "FB", price: 0.0, beast_low: 0.39, beast_high: 0.51, target: [2.12, 2.4, 2.96, 3.65, 4.35]},
               %{symbol: "O:FB211223P00325000", stock: "FB", price: 0.0, beast_low: 0.47, beast_high: 0.74, target: [3.43, 3.78, 4.47, 5.33, 6.19]},
               %{symbol: "O:FB211223P00320000", stock: "FB", price: 0.0, beast_low: 0.35, beast_high: 0.60, target: [2.21, 2.46, 2.97, 3.59, 4.21]},
 
               %{symbol: "O:GOOGL211223C02950000", price: 0.0, stock: "GOOGL", beast_low: 2.96, beast_high: 4.4, target: [20.27, 22.87, 28.06, 34.48, 40.9]},
-              %{symbol: "O:GOOGL211217P02850000", price: 0.0, stock: "GOOGL", beast_low: 2.85, beast_high: 4.37, target: [11.53, 15.32, 22.89, 32.25, 41.61]},
-              %{symbol: "O:GOOGL211217C02920000", price: 0.0, stock: "GOOGL", beast_low: 3.14, beast_high: 4.81, target: [9.26, 12.06, 17.65, 24.56, 31.47]},
-              %{symbol: "O:GOOGL211217C02930000", price: 0.0, stock: "GOOGL", beast_low: 2.7, beast_high: 4.01, target: [6.84, 9.29, 14.17, 20.21, 26.26]},
               %{symbol: "O:GOOGL211223P02850000", price: 0.0, stock: "GOOGL", beast_low: 4.81, beast_high: 6.39, target: [32.51, 38.6, 50.77, 65.82, 80.86]},
 
 
-              %{symbol: "O:AMD211217C00140000", price: 0.0, stock: "AMD", beast_low: 0.58, beast_high: 0.83, target: [2.03, 2.49, 3.39, 4.52, 5.64]},
-              %{symbol: "O:AMD211217C00142000", price: 0.0, stock: "AMD", beast_low: 0.42, beast_high: 0.56, target: [1.35, 1.73, 2.5, 3.45, 4.4]},
-              %{symbol: "O:AMD211217P00135000", price: 0.0, stock: "AMD", beast_low: 0.38, beast_high: 0.55, target: [1.13, 1.3, 1.64, 2.07, 2.5]},
               %{symbol: "O:AMD211223C00140000", price: 0.0, stock: "AMD", beast_low: 0.58, beast_high: 0.82, target: [4.59, 5.01, 5.84, 6.87, 7.9]},
               %{symbol: "O:AMD211223C00150000", price: 0.0, stock: "AMD", beast_low: 0.24, beast_high: 0.39, target: [1.56, 1.76, 2.14, 2.62, 3.1]},
               %{symbol: "O:AMD211223P00130000", price: 0.0, stock: "AMD", beast_low: 0.25, beast_high: 0.36, target: [1.92, 2.03, 2.24, 2.51, 2.79]},
@@ -38,9 +27,6 @@ defmodule Beast.Polygon do
               %{symbol: "O:AMZN211217C03450000", price: 0.0, stock: "AMZN", beast_low: 4.52, beast_high: 7.33, target: [11.15, 14.32, 20.66, 28.5, 36.33]},
               %{symbol: "O:AMZN211217C03470000", price: 0.0, stock: "AMZN", beast_low: 3.32, beast_high: 5.72, target: [7.91, 10.45, 15.53, 21.81, 28.09]},
 
-              %{symbol: "O:NVDA211217C00290000", price: 0.0, stock: "NVDA", beast_low: 1.48, beast_high: 2.13, target: [4.45, 5.82, 8.57, 11.97, 15.36]},
-              %{symbol: "O:NVDA211217C00295000", price: 0.0, stock: "NVDA", beast_low: 1.17, beast_high: 1.77, target: [2.93, 4.07, 6.34, 9.15, 11.97]},
-              %{symbol: "O:NVDA211217P00270000", price: 0.0, stock: "NVDA", beast_low: 0.45, beast_high: 0.62, target: [1.71, 2.21, 3.2, 4.43, 5.65]},
               %{symbol: "O:NVDA211223C00300000", price: 0.0, stock: "NVDA", beast_low: 1.10, beast_high: 1.63, target: [6.27, 7.18, 9, 11.25, 13.5]},
               %{symbol: "O:NVDA211223C00310000", price: 0.0, stock: "NVDA", beast_low: 0.69, beast_high: 1.13, target: [3.85, 4.45, 5.65, 7.13, 8.62]},
               %{symbol: "O:NVDA211223P00260000", price: 0.0, stock: "NVDA", beast_low: 0.40, beast_high: 0.54, target: [3.69, 4.08, 4.85, 5.8, 6.76]},
@@ -103,12 +89,7 @@ defmodule Beast.Polygon do
   end
 
   def handle_status_update(_event) do
-    # BeastWeb.Endpoint.broadcast! "room:lobby", "new_msg", %{
-    #   sym: "test",
-    #   price: 1.5,
-    #   beast_low: 1.0,
-    #   beast_high: 2.0
-    # }
+    # nothing
   end
 
 

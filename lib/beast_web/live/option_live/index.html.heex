@@ -1,4 +1,4 @@
-<h1>Options</h1>
+<h1>Beast Options</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.option_index_path(@socket, :index)}>
@@ -13,10 +13,13 @@
   </.modal>
 <% end %>
 
+<div id="filter-options">
+  <input type="checkbox"/> All
+  <input phx-click="beast-range-only" type="checkbox"/> In Beast Range
+</div>
+
 <div id="options">
   <%= for option <- @options do %>
     <%= live_component BeastWeb.OptionLive.OptionComponent, option: option %>
   <% end %>
 </div>
-
-<span><%= live_patch "New Option", to: Routes.option_index_path(@socket, :new) %></span>
