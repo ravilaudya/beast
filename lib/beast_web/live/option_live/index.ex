@@ -8,7 +8,9 @@ defmodule BeastWeb.OptionLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Beast.Polygon.subscribe()
-    {:ok, assign(socket, :options, Beast.Polygon.get_tickers())}
+    {:ok, socket
+          |> assign(:options, Beast.Polygon.get_tickers())
+    }
   end
 
   @impl true
@@ -42,21 +44,30 @@ defmodule BeastWeb.OptionLive.Index do
     {:noreply, assign(socket, :options, list_options())}
   end
   def handle_event("beast-range-only", _, socket) do
-    {:noreply, update(socket, :options, fn options->
-      Enum.filter(options, fn x -> x.price <= x.beast_low end)
-    end)}
+    {:noreply,
+      socket
+      |> update(:options, fn options->
+                Enum.filter(options, fn x -> x.price <= x.beast_low end)
+                end)
+      |> update(:beast_only, fn _ -> true end)
+    }
+  end
+  def handle_event("all-options", _, socket) do
+    {:noreply,
+      socket
+      |> update(:options, fn options-> Beast.Polygon.get_tickers() end)
+      |> update(:beast_only, fn _ -> false end)
+    }
   end
 
   @impl true
   def handle_info({:init, options}, socket) do
-    Logger.info("**** INIT IN INDEX... #{inspect options}")
     {:noreply, update(socket, :options, fn _ -> options end)}
   end
 
 
   @impl true
   def handle_info({:update, option}, socket) do
-    Logger.info("**** RECEIVED INFO MSG IN INDEX... #{inspect option}")
     {:noreply, update(socket, :options, fn options->
       Enum.map(options, fn x ->
         if option.symbol == x.symbol do

@@ -13,10 +13,26 @@
   </.modal>
 <% end %>
 
-<div id="filter-options">
-  <input type="checkbox"/> All
-  <input phx-click="beast-range-only" type="checkbox"/> In Beast Range
+
+<div id="options-headers">
+  <div class="option">
+    <div class="row">
+      <div class="column column-40 option-symbol">
+        <b>Option</b>
+      </div>
+      <div class="column column-10 option-price">
+        <b>Price</b>
+      </div>
+      <div class="column column-20 option-beast-low">
+        <b>Beast Low</b>
+      </div>
+      <div class="column column-20 option-beast-high">
+        <b>Beast High</b>
+      </div>
+    </div>
+  </div>
 </div>
+<br>
 
 <div id="options">
   <%= for option <- @options do %>

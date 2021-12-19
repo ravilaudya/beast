@@ -1,15 +1,16 @@
 defmodule Beast.Polygon do
   use WebSockex
   require Logger
+  require Beast.TickerAgent
 
   def get_tickers() do
     tickers = [
-              %{symbol: "O:AAPL211223C00175000", stock: "AAPL", price: 0.0, beast_low: 0.47, beast_high: 0.62, target: [3.25, 3.54, 4.11, 4.82, 5.52]},
-              %{symbol: "O:AAPL211223C00180000", stock: "AAPL", price: 0.0, beast_low: 0.30, beast_high: 0.39, target: [1.71, 1.92, 2.36, 2.89, 3.43]},
-              %{symbol: "O:AAPL211223P00160000", stock: "AAPL", price: 0.0, beast_low: 0.09, beast_high: 0.17, target: [0.75, 0.8, 0.89, 1, 1.1]},
-              %{symbol: "O:AAPL211223P00165000", stock: "AAPL", price: 0.0, beast_low: 0.19, beast_high: 0.30, target: [1.63, 1.7, 1.86, 2.06, 2.26]},
+              %{symbol: "O:AAPL211223C00175000", stock: "AAPL", price: 0.0, beast_low: 0.44, beast_high: 0.59, target: [2.31, 2.54, 3.01, 3.58, 4.16]},
+              %{symbol: "O:AAPL211223C00180000", stock: "AAPL", price: 0.0, beast_low: 0.26, beast_high: 0.37, target: [1.02, 1.17, 1.48, 1.86, 2.25]},
+              %{symbol: "O:AAPL211223P00160000", stock: "AAPL", price: 0.0, beast_low: 0.11, beast_high: 0.18, target: [0.47, 0.51, 0.6, 0.71, 0.82]},
+              %{symbol: "O:AAPL211223P00165000", stock: "AAPL", price: 0.0, beast_low: 0.22, beast_high: 0.33, target: [1.16, 1.24, 1.4, 1.6, 1.79]},
 
-              %{symbol: "O:FB211223C00345000", stock: "FB", price: 0.0, beast_low: 0.55, beast_high: 0.71, target: [3.37, 3.76, 4.53, 5.48, 6.43]},
+              %{symbol: "O:FB211223C00345000", stock: "FB", price: 0.0, beast_low: 0.48, beast_high: 0.68, target: [3.37, 3.76, 4.53, 5.48, 6.43]},
               %{symbol: "O:FB211223C00350000", stock: "FB", price: 0.0, beast_low: 0.39, beast_high: 0.51, target: [2.12, 2.4, 2.96, 3.65, 4.35]},
               %{symbol: "O:FB211223P00325000", stock: "FB", price: 0.0, beast_low: 0.47, beast_high: 0.74, target: [3.43, 3.78, 4.47, 5.33, 6.19]},
               %{symbol: "O:FB211223P00320000", stock: "FB", price: 0.0, beast_low: 0.35, beast_high: 0.60, target: [2.21, 2.46, 2.97, 3.59, 4.21]},
@@ -37,7 +38,7 @@ defmodule Beast.Polygon do
               %{symbol: "O:MSFT211223P00310000", price: 0.0, stock: "MSFT", beast_low: 0.13, beast_high: 0.20, target: [1.62, 1.74, 1.98, 2.28, 2.58]},
               %{symbol: "O:MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29, target: [2.45, 2.61, 2.94, 3.35, 3.75]},
             ]
-    tickers
+    Beast.TickerAgent.tickers()
   end
 
 
@@ -121,6 +122,7 @@ defmodule Beast.Polygon do
   def handle_frame({:text, "[{\"ev\":\"status\",\"status\":\"auth_success\",\"message\":\"authenticated\"}]" = msg}, state) do
     Logger.info("Received Message: #{msg}")
     tickers = get_tickers()
+    Logger.info("GOT TICKERS: #{inspect tickers}")
     broadcast({:init, tickers})
     tickers_text = get_tickers_text()
     # Logger.info("Subscribing for tickers: #{tickers}")

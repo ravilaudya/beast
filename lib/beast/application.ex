@@ -18,7 +18,8 @@ defmodule Beast.Application do
       BeastWeb.Endpoint,
       # Start a worker by calling: Beast.Worker.start_link(arg)
       # {Beast.Worker, arg}
-      {Beast.Polygon, ["Beast numbers are Great"]}
+      {Beast.TickerAgent, []},
+      {Beast.Polygon, ["Beast numbers are Great"]},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
