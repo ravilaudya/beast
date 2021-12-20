@@ -62,7 +62,7 @@ defmodule Beast.TickerAgent do
     list
     |> Enum.slice(9, 5)
     |> Enum.map(fn x -> safe_parse_float(x) end)
-    |> Enum.join(",")
+    |> Enum.join(", ")
   end
 
   def start_link(_initial_value) do

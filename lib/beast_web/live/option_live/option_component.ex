@@ -18,8 +18,8 @@ defmodule BeastWeb.OptionLive.OptionComponent do
         <div class="column column-10 option-beast-high">
           <b><%= @option.beast_high %></b>
         </div>
-        <div class="column column-30 option-beast-high">
-          <b><%= @option.targets %></b>
+        <div class="column column-60 option-beast-high">
+          <b>[ <%= @option.targets %> ]</b>
         </div>
       </div>
     </div>
