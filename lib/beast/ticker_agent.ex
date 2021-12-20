@@ -16,8 +16,8 @@ defmodule Beast.TickerAgent do
 
   defp split_symbol(sym) do
     all_chars = Regex.split(~r{}, sym)
-    result = %{ticker: "", date: "", type: "", strike: "", state: "start"}
-    result = Enum.reduce(all_chars, result, fn c, acc ->
+    initial_val = %{ticker: "", date: "", type: "", strike: "", state: "start"}
+    Enum.reduce(all_chars, initial_val, fn c, acc ->
       cond do
         String.match?(c, ~r/^[[:alpha:]]+$/) == true ->
           case Map.get(acc, :state) do
@@ -49,13 +49,21 @@ defmodule Beast.TickerAgent do
     "O:#{Map.get(all_parts, :ticker)}#{Map.get(all_parts, :date)}#{Map.get(all_parts, :type)}#{strike}"
   end
 
-  def start_link(initial_value) do
+  defp safe_parse_float(s) do
+    try do
+      String.to_float(s)
+    rescue
+      _e -> 0.0
+    end
+  end
+
+  def start_link(_initial_value) do
     {:ok, contents} = File.read("./options-res.txt")
     split_contents = String.split(contents, "\n")
     tickers = Enum.map(split_contents, fn line ->
       list = String.split(line)
       symbol = generate_symbol(Enum.at(list, 0))
-      %{symbol: symbol, price: 0.0, beast_low: Enum.at(list, 3), beast_high: Enum.at(list, 5)}
+      %{symbol: symbol, price: 0.0, beast_low: safe_parse_float(Enum.at(list, 3)), beast_high: safe_parse_float(Enum.at(list, 5))}
     end)
     Logger.warn("STARTING TICKERS...#{inspect tickers}")
     Agent.start_link(fn -> tickers end, name: __MODULE__)
@@ -65,7 +73,16 @@ defmodule Beast.TickerAgent do
     Agent.get(__MODULE__, fn tickers -> tickers end)
   end
 
-  def update() do
-    Agent.update(__MODULE__, fn tickers -> tickers end)
+  def update(ticker) do
+    Agent.update(__MODULE__, fn tickers ->
+      Enum.map(tickers, fn x ->
+        if ticker.symbol == x.symbol do
+          %{x | price: ticker.price}
+        else
+          x
+        end
+      end)
+    end)
   end
+
 end

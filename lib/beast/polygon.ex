@@ -78,15 +78,8 @@ defmodule Beast.Polygon do
     ticker = find_ticker(sym)
     Logger.warn("FOUND TICKER: #{inspect ticker}")
 
-    only_beast_matches = true
-
-    if only_beast_matches == true do
-      if window_close <= Map.get(ticker, :beast_high) do
-          broadcast({:update, %{ticker | price: window_close}})
-      end
-    else
-      broadcast({:update, %{ticker | price: window_close}})
-    end
+    Beast.TickerAgent.update(%{ticker | price: window_close})
+    broadcast({:update, %{ticker | price: window_close}})
   end
 
   def handle_status_update(_event) do

@@ -13,6 +13,10 @@
   </.modal>
 <% end %>
 
+<div id="filters">
+  <input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options"> All
+  <input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only"> In Beast Range Only
+</div>
 
 <div id="options-headers">
   <div class="option">
@@ -35,7 +39,7 @@
 <br>
 
 <div id="options">
-  <%= for option <- @options do %>
+  <%= for option <- @data.options do %>
     <%= live_component BeastWeb.OptionLive.OptionComponent, option: option %>
   <% end %>
 </div>
