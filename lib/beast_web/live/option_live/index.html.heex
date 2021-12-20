@@ -25,31 +25,22 @@
   </div>
 <% end %>
 
-<div id="options-headers">
-  <div class="option">
-    <div class="row">
-      <div class="column column-40 option-symbol">
-        <b>Option</b>
-      </div>
-      <div class="column column-10 option-price">
-        <b>Price</b>
-      </div>
-      <div class="column column-10 option-beast-low">
-        <b>Beast Low</b>
-      </div>
-      <div class="column column-10 option-beast-high">
-        <b>Beast High</b>
-      </div>
-      <div class="column column-60 option-beast-high">
-        <b>Targets</b>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
 
-<div id="options">
-  <%= for option <- @data.options do %>
-    <%= live_component BeastWeb.OptionLive.OptionComponent, option: option %>
-  <% end %>
-</div>
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Price</th>
+      <th>Beast Low</th>
+      <th>Beast High</th>
+      <th>Targets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for option <- @data.options do %>
+      <tr>
+        <%= live_component BeastWeb.OptionLive.OptionComponent, option: option %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

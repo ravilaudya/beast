@@ -4,25 +4,21 @@ defmodule BeastWeb.OptionLive.OptionComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="option">
-      <div class="row">
-        <div class="column column-40 option-symbol">
-          <b><%= @option.readable_symbol %></b>
-        </div>
-        <div class="column column-10 option-price">
-          <b><%= @option.price %></b>
-        </div>
-        <div class="column column-10 option-beast-low">
-          <b><%= @option.beast_low %></b>
-        </div>
-        <div class="column column-10 option-beast-high">
-          <b><%= @option.beast_high %></b>
-        </div>
-        <div class="column column-60 option-beast-high">
-          <b>[ <%= @option.targets %> ]</b>
-        </div>
-      </div>
-    </div>
+      <td>
+        <b><%= @option.readable_symbol %></b>
+      </td>
+      <td>
+        <b><%= @option.price %></b>
+      </td>
+      <td>
+        <b><%= @option.beast_low %></b>
+      </td>
+      <td>
+        <b><%= @option.beast_high %></b>
+      </td>
+      <td>
+        <b>[ <%= @option.targets %> ]</b>
+      </td>
     """
   end
 
