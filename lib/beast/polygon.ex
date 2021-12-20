@@ -26,6 +26,7 @@ defmodule Beast.Polygon do
     Phoenix.PubSub.broadcast(Beast.PubSub, "options", msg)
   end
 
+
   def handle_ticker_update(event) do
     Logger.info("Handling ticker update: #{inspect event}")
     sym = Map.get(event, "sym")
@@ -82,7 +83,7 @@ defmodule Beast.Polygon do
   def handle_frame({:text, "[{\"ev\":\"status\",\"status\":\"auth_success\",\"message\":\"authenticated\"}]" = msg}, state) do
     Logger.info("Received Message: #{msg}")
     tickers = get_tickers()
-    Logger.info("GOT TICKERS: #{inspect tickers}")
+    # Logger.info("GOT TICKERS: #{inspect tickers}")
     broadcast({:init, tickers})
     tickers_text = get_tickers_text()
     # Logger.info("Subscribing for tickers: #{tickers}")

@@ -41,20 +41,28 @@ defmodule Beast.TickerAgent do
   end
 
 
-  def generate_symbol(nil), do: ""
-  def generate_symbol(""), do: ""
+  def generate_symbol(nil), do: {"", ""}
+  def generate_symbol(""), do: {"", ""}
   def generate_symbol(sym) do
     all_parts = split_symbol(sym)
     strike = generate_strike(Map.get(all_parts, :strike))
-    "O:#{Map.get(all_parts, :ticker)}#{Map.get(all_parts, :date)}#{Map.get(all_parts, :type)}#{strike}"
+    option_sym = "O:#{Map.get(all_parts, :ticker)}#{Map.get(all_parts, :date)}#{Map.get(all_parts, :type)}#{strike}"
+    readable_sym = Enum.join([all_parts.ticker, all_parts.date, "#{all_parts.strike}#{all_parts.type}"], " ")
+    {option_sym, readable_sym}
   end
 
   defp safe_parse_float(s) do
-    try do
-      String.to_float(s)
-    rescue
-      _e -> 0.0
+    case Float.parse(s) do
+      {num, _} -> num
+      :error -> 0.0
     end
+  end
+
+  defp generate_targets(list) do
+    list
+    |> Enum.slice(9, 5)
+    |> Enum.map(fn x -> safe_parse_float(x) end)
+    |> Enum.join(",")
   end
 
   def start_link(_initial_value) do
@@ -62,8 +70,14 @@ defmodule Beast.TickerAgent do
     split_contents = String.split(contents, "\n")
     tickers = Enum.map(split_contents, fn line ->
       list = String.split(line)
-      symbol = generate_symbol(Enum.at(list, 0))
-      %{symbol: symbol, price: 0.0, beast_low: safe_parse_float(Enum.at(list, 3)), beast_high: safe_parse_float(Enum.at(list, 5))}
+      {symbol, readable_symbol} = generate_symbol(Enum.at(list, 0))
+      targets = generate_targets(list)
+      %{symbol: symbol,
+        readable_symbol: readable_symbol,
+        price: 0.0,
+        beast_low: safe_parse_float(Enum.at(list, 3)),
+        beast_high: safe_parse_float(Enum.at(list, 5)),
+        targets: targets}
     end)
     Logger.warn("STARTING TICKERS...#{inspect tickers}")
     Agent.start_link(fn -> tickers end, name: __MODULE__)
