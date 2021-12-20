@@ -20,14 +20,14 @@ defmodule BeastWeb.OptionLive.Index do
   end
 
   defp beast_range_options(options) do
-    options = Enum.filter(options, fn option -> option.price <= option.beast_low end)
-    Logger.info("**** RETURNING BEAST ONLY OPTIONS: #{inspect options}")
+    options = Enum.filter(options, fn option -> option.price <= option.beast_high end)
+    # Logger.info("**** RETURNING BEAST ONLY OPTIONS: #{inspect options}")
     options
   end
 
   @impl true
   def handle_event("beast-range-only", _, socket) do
-    Logger.info("DATA: #{inspect socket}")
+    # Logger.info("DATA: #{inspect socket}")
     {:noreply, update(socket, :data, fn data ->
       %{data | filter: "beast-range", options: beast_range_options(data.options)} end)}
   end
@@ -40,14 +40,14 @@ defmodule BeastWeb.OptionLive.Index do
     if exists do
       Enum.map(options, fn x ->
         if option.symbol == x.symbol do
-          Logger.info("**** UPDATED OPTION PRICE.... #{inspect option}")
+          # Logger.info("**** UPDATED OPTION PRICE.... #{inspect option}")
           %{x | price: option.price}
         else
           x
         end
       end)
     else
-      Logger.info("**** added as new OPTION.... #{inspect option}")
+      # Logger.info("**** added as new OPTION.... #{inspect option}")
       [option | options]
     end
   end
@@ -60,7 +60,7 @@ defmodule BeastWeb.OptionLive.Index do
 
   @impl true
   def handle_info({:update, option}, socket) do
-    Logger.info("UPDATE OPTIONS: #{inspect option}")
+    # Logger.info("UPDATE OPTIONS: #{inspect option}")
     {:noreply, update(socket, :data, fn data ->
       options = add_option(data.options, option)
       if data.filter == "beast-range" do

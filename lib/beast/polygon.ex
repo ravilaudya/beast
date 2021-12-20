@@ -4,40 +4,7 @@ defmodule Beast.Polygon do
   require Beast.TickerAgent
 
   def get_tickers() do
-    tickers = [
-              %{symbol: "O:AAPL211223C00175000", stock: "AAPL", price: 0.0, beast_low: 0.44, beast_high: 0.59, target: [2.31, 2.54, 3.01, 3.58, 4.16]},
-              %{symbol: "O:AAPL211223C00180000", stock: "AAPL", price: 0.0, beast_low: 0.26, beast_high: 0.37, target: [1.02, 1.17, 1.48, 1.86, 2.25]},
-              %{symbol: "O:AAPL211223P00160000", stock: "AAPL", price: 0.0, beast_low: 0.11, beast_high: 0.18, target: [0.47, 0.51, 0.6, 0.71, 0.82]},
-              %{symbol: "O:AAPL211223P00165000", stock: "AAPL", price: 0.0, beast_low: 0.22, beast_high: 0.33, target: [1.16, 1.24, 1.4, 1.6, 1.79]},
-
-              %{symbol: "O:FB211223C00345000", stock: "FB", price: 0.0, beast_low: 0.48, beast_high: 0.68, target: [3.37, 3.76, 4.53, 5.48, 6.43]},
-              %{symbol: "O:FB211223C00350000", stock: "FB", price: 0.0, beast_low: 0.39, beast_high: 0.51, target: [2.12, 2.4, 2.96, 3.65, 4.35]},
-              %{symbol: "O:FB211223P00325000", stock: "FB", price: 0.0, beast_low: 0.47, beast_high: 0.74, target: [3.43, 3.78, 4.47, 5.33, 6.19]},
-              %{symbol: "O:FB211223P00320000", stock: "FB", price: 0.0, beast_low: 0.35, beast_high: 0.60, target: [2.21, 2.46, 2.97, 3.59, 4.21]},
-
-              %{symbol: "O:GOOGL211223C02950000", price: 0.0, stock: "GOOGL", beast_low: 2.96, beast_high: 4.4, target: [20.27, 22.87, 28.06, 34.48, 40.9]},
-              %{symbol: "O:GOOGL211223P02850000", price: 0.0, stock: "GOOGL", beast_low: 4.81, beast_high: 6.39, target: [32.51, 38.6, 50.77, 65.82, 80.86]},
-
-
-              %{symbol: "O:AMD211223C00140000", price: 0.0, stock: "AMD", beast_low: 0.58, beast_high: 0.82, target: [4.59, 5.01, 5.84, 6.87, 7.9]},
-              %{symbol: "O:AMD211223C00150000", price: 0.0, stock: "AMD", beast_low: 0.24, beast_high: 0.39, target: [1.56, 1.76, 2.14, 2.62, 3.1]},
-              %{symbol: "O:AMD211223P00130000", price: 0.0, stock: "AMD", beast_low: 0.25, beast_high: 0.36, target: [1.92, 2.03, 2.24, 2.51, 2.79]},
-              %{symbol: "O:AMD211223P00133000", price: 0.0, stock: "AMD", beast_low: 0.30, beast_high: 0.45, target: [2.75, 2.95, 3.34, 3.83, 4.32]},
-
-
-              %{symbol: "O:AMZN211217C03450000", price: 0.0, stock: "AMZN", beast_low: 4.52, beast_high: 7.33, target: [11.15, 14.32, 20.66, 28.5, 36.33]},
-              %{symbol: "O:AMZN211217C03470000", price: 0.0, stock: "AMZN", beast_low: 3.32, beast_high: 5.72, target: [7.91, 10.45, 15.53, 21.81, 28.09]},
-
-              %{symbol: "O:NVDA211223C00300000", price: 0.0, stock: "NVDA", beast_low: 1.10, beast_high: 1.63, target: [6.27, 7.18, 9, 11.25, 13.5]},
-              %{symbol: "O:NVDA211223C00310000", price: 0.0, stock: "NVDA", beast_low: 0.69, beast_high: 1.13, target: [3.85, 4.45, 5.65, 7.13, 8.62]},
-              %{symbol: "O:NVDA211223P00260000", price: 0.0, stock: "NVDA", beast_low: 0.40, beast_high: 0.54, target: [3.69, 4.08, 4.85, 5.8, 6.76]},
-              %{symbol: "O:NVDA211223P00270000", price: 0.0, stock: "NVDA", beast_low: 0.68, beast_high: 0.87, target: [6.2, 6.77, 7.92, 9.34, 10.76]},
-
-              %{symbol: "O:SNOW211223C00400000", price: 0.0, stock: "SNOW", beast_low: 0.46, beast_high: 0.78},
-              %{symbol: "O:MSFT211223C00340000", price: 0.0, stock: "MSFT", beast_low: 0.30, beast_high: 0.49, target: [1.31, 1.73, 2.58, 3.63, 4.68]},
-              %{symbol: "O:MSFT211223P00310000", price: 0.0, stock: "MSFT", beast_low: 0.13, beast_high: 0.20, target: [1.62, 1.74, 1.98, 2.28, 2.58]},
-              %{symbol: "O:MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29, target: [2.45, 2.61, 2.94, 3.35, 3.75]},
-            ]
+    # tickers = [%{symbol: "O:MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29, target: [2.45, 2.61, 2.94, 3.35, 3.75]},]
     Beast.TickerAgent.tickers()
   end
 
@@ -96,14 +63,14 @@ defmodule Beast.Polygon do
         "A" -> handle_ticker_update(event)
         _ -> Logger.error("Unknown event type: #{event}")
       end
+    end)
     Process.sleep(1000)
     handle_frame({:text, "hello"}, ['awesome elixir'])
-    end)
   end
 
   def start_link(state) do
     {:ok, pid}  = WebSockex.start_link("wss://socket.polygon.io/options", __MODULE__, state)
-    Logger.warn("Started POLYGON CLIENT...#{inspect pid}")
+    # Logger.warn("Started POLYGON CLIENT...#{inspect pid}")
     {:ok, pid}
   end
 
@@ -147,7 +114,6 @@ defmodule Beast.Polygon do
   end
 
   def subscribe do
-    Logger.info("***** SUBSCRIBING ******")
     Phoenix.PubSub.subscribe(Beast.PubSub, "options")
   end
 
