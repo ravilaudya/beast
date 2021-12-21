@@ -17,6 +17,12 @@ defmodule BeastWeb.OptionLive.OptionComponent do
         <b><%= @option.beast_high %></b>
       </td>
       <td>
+        <b><%= @option.open %></b>
+      </td>
+      <td>
+        <b><%= @option.vwap %></b>
+      </td>
+      <td>
         <b>[ <%= @option.targets %> ]</b>
       </td>
     """

@@ -41,14 +41,14 @@ defmodule Beast.TickerAgent do
   end
 
 
-  def generate_symbol(nil), do: {"", ""}
-  def generate_symbol(""), do: {"", ""}
+  def generate_symbol(nil), do: {"", "", ""}
+  def generate_symbol(""), do: {"", "", ""}
   def generate_symbol(sym) do
     all_parts = split_symbol(sym)
     strike = generate_strike(Map.get(all_parts, :strike))
     option_sym = "O:#{Map.get(all_parts, :ticker)}#{Map.get(all_parts, :date)}#{Map.get(all_parts, :type)}#{strike}"
     readable_sym = Enum.join([all_parts.ticker, all_parts.date, "#{all_parts.strike}#{all_parts.type}"], " ")
-    {option_sym, readable_sym}
+    {option_sym, readable_sym, all_parts.type}
   end
 
   defp safe_parse_float(s) do
@@ -70,11 +70,15 @@ defmodule Beast.TickerAgent do
     split_contents = String.split(contents, "\n")
     tickers = Enum.map(split_contents, fn line ->
       list = String.split(line)
-      {symbol, readable_symbol} = generate_symbol(Enum.at(list, 0))
+      {symbol, readable_symbol, option_type} = generate_symbol(Enum.at(list, 0))
       targets = generate_targets(list)
       %{symbol: symbol,
-        readable_symbol: readable_symbol,
+        readable_symbol: Enum.at(list, 0),
         price: 0.0,
+        open: 0.0,
+        vwap: 0.0,
+        type: option_type,
+        volume: 0,
         beast_low: safe_parse_float(Enum.at(list, 3)),
         beast_high: safe_parse_float(Enum.at(list, 5)),
         targets: targets}
@@ -91,7 +95,7 @@ defmodule Beast.TickerAgent do
     Agent.update(__MODULE__, fn tickers ->
       Enum.map(tickers, fn x ->
         if ticker.symbol == x.symbol do
-          %{x | price: ticker.price}
+          %{x | price: ticker.price, volume: ticker.volume, vwap: ticker.vwap, open: ticker.open}
         else
           x
         end

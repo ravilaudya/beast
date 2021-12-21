@@ -26,6 +26,29 @@
 <% end %>
 
 
+
+<%= if @data.type == "calls-only" do %>
+  <div id="option_type">
+    <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types"> All
+    <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only" checked> Calls Only
+    <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only"> Puts Only
+  </div>
+<% else %>
+  <%= if @data.type == "puts-only" do %>
+    <div id="option_type">
+      <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types"> All
+      <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only"> Calls Only
+      <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only" checked> Puts Only
+    </div>
+  <% else %>
+    <div id="option_type">
+      <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types" checked> All
+      <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only"> Calls Only
+      <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only"> Puts Only
+    </div>
+  <% end %>
+<% end %>
+
 <table class="styled-table">
   <thead>
     <tr>
@@ -33,6 +56,8 @@
       <th>Price</th>
       <th>Beast Low</th>
       <th>Beast High</th>
+      <th>Open</th>
+      <th>VWAP</th>
       <th>Targets</th>
     </tr>
   </thead>

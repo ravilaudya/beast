@@ -4,7 +4,7 @@ defmodule Beast.Polygon do
   require Beast.TickerAgent
 
   def get_tickers() do
-    # tickers = [%{symbol: "O:MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29, target: [2.45, 2.61, 2.94, 3.35, 3.75]},]
+    #tickers = [%{symbol: "O:MSFT211223P00315000", open: 0.0, volume: 1000, vwap: 0.0,  targets: "", readable_symbol: "MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29},]
     Beast.TickerAgent.tickers()
   end
 
@@ -30,10 +30,10 @@ defmodule Beast.Polygon do
   def handle_ticker_update(event) do
     Logger.info("Handling ticker update: #{inspect event}")
     sym = Map.get(event, "sym")
-    _volume = Map.get(event, "v")
-    _acc_volume = Map.get(event, "av")
-    _open = Map.get(event, "op")
-    _vol_wt_avg_price = Map.get(event, "vw")
+    volume = Map.get(event, "v")
+    av = Map.get(event, "av")
+    open = Map.get(event, "op")
+    vwap = Map.get(event, "vw")
     _window_open = Map.get(event, "o")
     window_close = Map.get(event, "c")
     _window_high = Map.get(event, "h")
@@ -44,10 +44,11 @@ defmodule Beast.Polygon do
     _end_timestamp = Map.get(event, "e")
 
     ticker = find_ticker(sym)
-    Logger.warn("FOUND TICKER: #{inspect ticker}")
+    # Logger.warn("FOUND TICKER: #{inspect ticker}")
 
-    Beast.TickerAgent.update(%{ticker | price: window_close})
-    broadcast({:update, %{ticker | price: window_close}})
+    updated_ticker = %{ticker | price: window_close, open: open, volume: av, vwap: vwap}
+    Beast.TickerAgent.update(updated_ticker)
+    broadcast({:update, updated_ticker})
   end
 
   def handle_status_update(_event) do
@@ -106,7 +107,11 @@ defmodule Beast.Polygon do
 
   def generate_test_event() do
     ticker = Enum.random(get_tickers())
-    [%{"ev" => "AM", "sym" => Map.get(ticker, :symbol), "c" => Enum.random(10..200) / 100}]
+    [%{"ev" => "AM", "sym" => Map.get(ticker, :symbol),
+       "c" => Enum.random(10..200) / 100,
+       "v" => Enum.random(1000..20000),
+       "vw" => Enum.random(10..200) / 100,
+       "op" => Enum.random(10..200) / 100}]
   end
 
   def handle_cast({:send, {type, msg} = frame}, state) do
