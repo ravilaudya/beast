@@ -103,8 +103,7 @@ defmodule Beast.TickerAgent do
         type: option_detail.option_type,
         open_interest: 0,
         volume: 0,
-        discord_alerted: false,
-        last_discord_alerted_time: nil,
+        last_alerted_at: nil,
         beast_low: safe_parse_float(Enum.at(list, 3)),
         beast_high: safe_parse_float(Enum.at(list, 5)),
         targets: targets}

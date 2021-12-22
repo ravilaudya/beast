@@ -48,8 +48,8 @@ defmodule Beast.Polygon do
     # Logger.warn("FOUND TICKER: #{inspect ticker}")
 
     updated_ticker = %{ticker | price: window_close, open: open, volume: av, vwap: vwap}
+                    |> Beast.DiscordBot.alert
     Beast.TickerAgent.update(updated_ticker)
-    Beast.DiscordBot.update(updated_ticker)
     broadcast({:update, updated_ticker})
   end
 
@@ -68,8 +68,8 @@ defmodule Beast.Polygon do
         _ -> Logger.error("Unknown event type: #{event}")
       end
     end)
-    # Process.sleep(1000)
-    # handle_frame({:text, "hello"}, ['awesome elixir'])
+    Process.sleep(1000)
+    handle_frame({:text, "hello"}, ['awesome elixir'])
   end
 
   def start_link(state) do
@@ -95,9 +95,9 @@ defmodule Beast.Polygon do
 
   def handle_frame({:text, msg}, state) do
     Logger.info("Received Message: #{msg}")
-    json_msg = Poison.decode!(msg)
-    parse_events(json_msg)
-    #parse_events(generate_test_event())
+    # json_msg = Poison.decode!(msg)
+    # parse_events(json_msg)
+    parse_events(generate_test_event())
     {:ok, state}
   end
 
@@ -111,7 +111,7 @@ defmodule Beast.Polygon do
     ticker = Enum.random(get_tickers())
     [%{"ev" => "AM", "sym" => Map.get(ticker, :symbol),
        "c" => Enum.random(10..200) / 100,
-       "v" => Enum.random(1000..20000),
+       "av" => Enum.random(1000..20000),
        "vw" => Enum.random(10..200) / 100,
        "op" => Enum.random(10..200) / 100}]
   end
