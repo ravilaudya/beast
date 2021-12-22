@@ -68,8 +68,8 @@ defmodule Beast.Polygon do
         _ -> Logger.error("Unknown event type: #{event}")
       end
     end)
-    Process.sleep(1000)
-    handle_frame({:text, "hello"}, ['awesome elixir'])
+    # Process.sleep(1000)
+    # handle_frame({:text, "hello"}, ['awesome elixir'])
   end
 
   def start_link(state) do
@@ -95,9 +95,9 @@ defmodule Beast.Polygon do
 
   def handle_frame({:text, msg}, state) do
     Logger.info("Received Message: #{msg}")
-    # json_msg = Poison.decode!(msg)
-    # parse_events(json_msg)
-    parse_events(generate_test_event())
+    json_msg = Poison.decode!(msg)
+    parse_events(json_msg)
+    # parse_events(generate_test_event())
     {:ok, state}
   end
 
