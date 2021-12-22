@@ -51,6 +51,7 @@ defmodule Beast.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:websockex, "~> 0.4.3"},
       {:elephant, "~> 0.1.0"},
+      {:httpoison, "~> 1.8"},
       {:poison, "~> 5.0"}
     ]
   end

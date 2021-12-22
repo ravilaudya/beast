@@ -11,16 +11,19 @@ defmodule BeastWeb.OptionLive.OptionComponent do
         <b><%= @option.price %></b>
       </td>
       <td>
-        <b><%= @option.beast_low %></b>
-      </td>
-      <td>
-        <b><%= @option.beast_high %></b>
+        <b>[<%= @option.beast_low %> - <%= @option.beast_high %>]</b>
       </td>
       <td>
         <b><%= @option.open %></b>
       </td>
       <td>
         <b><%= @option.vwap %></b>
+      </td>
+      <td>
+        <b><%= @option.open_interest %></b>
+      </td>
+      <td>
+        <b><%= @option.volume %></b>
       </td>
       <td>
         <b>[ <%= @option.targets %> ]</b>

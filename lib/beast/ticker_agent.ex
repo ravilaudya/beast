@@ -41,14 +41,14 @@ defmodule Beast.TickerAgent do
   end
 
 
-  def generate_symbol(nil), do: {"", "", ""}
-  def generate_symbol(""), do: {"", "", ""}
+  def generate_symbol(nil), do: %{}
+  def generate_symbol(""), do: %{}
   def generate_symbol(sym) do
     all_parts = split_symbol(sym)
     strike = generate_strike(Map.get(all_parts, :strike))
+    stock = all_parts.ticker
     option_sym = "O:#{Map.get(all_parts, :ticker)}#{Map.get(all_parts, :date)}#{Map.get(all_parts, :type)}#{strike}"
-    readable_sym = Enum.join([all_parts.ticker, all_parts.date, "#{all_parts.strike}#{all_parts.type}"], " ")
-    {option_sym, readable_sym, all_parts.type}
+    %{stock: stock, option_symbol: option_sym, option_type: all_parts.type}
   end
 
   defp safe_parse_float(s) do
@@ -65,24 +65,53 @@ defmodule Beast.TickerAgent do
     |> Enum.join(", ")
   end
 
+  defp fetch_option_detail(ticker) do
+    Logger.info("**** FETCHING OPTION DETAILS FOR : #{ticker.stock}, #{ticker.symbol}")
+    url = "https://api.polygon.io/v3/snapshot/options/#{ticker.stock}/#{ticker.symbol}?apiKey=X5ndpVseKPBdJ6MbIyiaB1tvqJBmcHSe"
+    response = HTTPoison.get!(url)
+    resp = Poison.decode!(response.body)
+    # Logger.info("***** GOT RESPONSE: #{inspect resp}")
+    %{ticker | price: Map.get(resp, "results")
+                      |> Map.get("day")
+                      |> Map.get("close"),
+               open: Map.get(resp, "results")
+                     |> Map.get("day")
+                     |> Map.get("open"),
+               vwap: Map.get(resp, "results")
+                     |> Map.get("day")
+                     |> Map.get("vwap"),
+               volume: Map.get(resp, "results")
+                     |> Map.get("day")
+                     |> Map.get("volume"),
+               open_interest: Map.get(resp, "results")
+                              |> Map.get("open_interest")}
+  end
+
   def start_link(_initial_value) do
     {:ok, contents} = File.read("./options-res.txt")
     split_contents = String.split(contents, "\n")
     tickers = Enum.map(split_contents, fn line ->
       list = String.split(line)
-      {symbol, readable_symbol, option_type} = generate_symbol(Enum.at(list, 0))
+      option_detail = generate_symbol(Enum.at(list, 0))
       targets = generate_targets(list)
-      %{symbol: symbol,
+      %{symbol: option_detail.option_symbol,
+        stock: option_detail.stock,
         readable_symbol: Enum.at(list, 0),
         price: 0.0,
         open: 0.0,
         vwap: 0.0,
-        type: option_type,
+        type: option_detail.option_type,
+        open_interest: 0,
         volume: 0,
+        discord_alerted: false,
+        last_discord_alerted_time: nil,
         beast_low: safe_parse_float(Enum.at(list, 3)),
         beast_high: safe_parse_float(Enum.at(list, 5)),
         targets: targets}
     end)
+    tickers = Enum.map tickers, fn ticker ->
+      fetch_option_detail(ticker)
+    end
     Logger.warn("STARTING TICKERS...#{inspect tickers}")
     Agent.start_link(fn -> tickers end, name: __MODULE__)
   end
@@ -95,7 +124,7 @@ defmodule Beast.TickerAgent do
     Agent.update(__MODULE__, fn tickers ->
       Enum.map(tickers, fn x ->
         if ticker.symbol == x.symbol do
-          %{x | price: ticker.price, volume: ticker.volume, vwap: ticker.vwap, open: ticker.open}
+          ticker
         else
           x
         end

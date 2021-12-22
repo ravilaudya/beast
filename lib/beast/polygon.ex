@@ -2,6 +2,7 @@ defmodule Beast.Polygon do
   use WebSockex
   require Logger
   require Beast.TickerAgent
+  require Beast.DiscordBot
 
   def get_tickers() do
     #tickers = [%{symbol: "O:MSFT211223P00315000", open: 0.0, volume: 1000, vwap: 0.0,  targets: "", readable_symbol: "MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29},]
@@ -30,7 +31,7 @@ defmodule Beast.Polygon do
   def handle_ticker_update(event) do
     Logger.info("Handling ticker update: #{inspect event}")
     sym = Map.get(event, "sym")
-    volume = Map.get(event, "v")
+    _volume = Map.get(event, "v")
     av = Map.get(event, "av")
     open = Map.get(event, "op")
     vwap = Map.get(event, "vw")
@@ -48,6 +49,7 @@ defmodule Beast.Polygon do
 
     updated_ticker = %{ticker | price: window_close, open: open, volume: av, vwap: vwap}
     Beast.TickerAgent.update(updated_ticker)
+    Beast.DiscordBot.update(updated_ticker)
     broadcast({:update, updated_ticker})
   end
 
@@ -66,8 +68,8 @@ defmodule Beast.Polygon do
         _ -> Logger.error("Unknown event type: #{event}")
       end
     end)
-    Process.sleep(1000)
-    handle_frame({:text, "hello"}, ['awesome elixir'])
+    # Process.sleep(1000)
+    # handle_frame({:text, "hello"}, ['awesome elixir'])
   end
 
   def start_link(state) do
@@ -93,9 +95,9 @@ defmodule Beast.Polygon do
 
   def handle_frame({:text, msg}, state) do
     Logger.info("Received Message: #{msg}")
-    # json_msg = Poison.decode!(msg)
-    # parse_events(json_msg)
-    parse_events(generate_test_event())
+    json_msg = Poison.decode!(msg)
+    parse_events(json_msg)
+    #parse_events(generate_test_event())
     {:ok, state}
   end
 
