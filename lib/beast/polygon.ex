@@ -58,6 +58,7 @@ defmodule Beast.Polygon do
   end
 
 
+  @spec parse_events(any) :: list
   def parse_events(events) do
     Enum.map(events, fn event ->
       type = Map.get(event, "ev")

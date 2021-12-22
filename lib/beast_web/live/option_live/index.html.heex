@@ -13,7 +13,8 @@
   </.modal>
 <% end %>
 
-<%= if @data.filter == "all"do %>
+
+<%= if @data.filter == "all" do %>
   <div id="filters">
     <input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options" checked> All
     <input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only"> In Beast Range Only

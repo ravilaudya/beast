@@ -78,7 +78,7 @@ defmodule BeastWeb.OptionLive.Index do
 
   defp filter_beast_options(options, filter) do
     case filter do
-      "beast-range" -> Enum.filter(options, fn option -> option.price <= option.beast_high end)
+      "beast-range" -> Enum.filter(options, fn option -> option.price >= option.beast_low and option.price <= option.beast_high end)
       "all" -> options
       _ -> options
     end
