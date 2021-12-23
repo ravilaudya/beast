@@ -13,42 +13,42 @@
   </.modal>
 <% end %>
 
-
-<%= if @data.filter == "all" do %>
-  <div id="filters">
-    <input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options" checked> All
-    <input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only"> In Beast Range Only
-  </div>
-<% else %>
-  <div id="filters">
-    <input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options"> All
-    <input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only" checked> In Beast Range Only
-  </div>
-<% end %>
-
-
-
-<%= if @data.type == "calls-only" do %>
-  <div id="option_type">
-    <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types"> All
-    <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only" checked> Calls Only
-    <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only"> Puts Only
-  </div>
-<% else %>
-  <%= if @data.type == "puts-only" do %>
-    <div id="option_type">
-      <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types"> All
-      <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only"> Calls Only
-      <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only" checked> Puts Only
+<div>
+  <%= if @data.filter == "all" do %>
+    <div id="filters">
+      <input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options" checked> All
+      <input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only"> In Beast Range Only
     </div>
   <% else %>
-    <div id="option_type">
-      <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types" checked> All
-      <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only"> Calls Only
-      <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only"> Puts Only
+    <div id="filters">
+      <input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options"> All
+      <input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only" checked> In Beast Range Only
     </div>
   <% end %>
-<% end %>
+
+  <%= if @data.type == "calls-only" do %>
+    <div id="option_type">
+      <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types"> All
+      <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only" checked> Calls Only
+      <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only"> Puts Only
+    </div>
+  <% else %>
+    <%= if @data.type == "puts-only" do %>
+      <div id="option_type">
+        <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types"> All
+        <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only"> Calls Only
+        <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only" checked> Puts Only
+      </div>
+    <% else %>
+      <div id="option_type">
+        <input type="radio" phx-click="all-types" id="all_types" name="option_type" value="all_types" checked> All
+        <input type="radio" phx-click="calls-only" id="calls_onlly" name="option_type" value="calls_only"> Calls Only
+        <input type="radio" phx-click="puts-only" id="puts_only" name="option_type" value="puts_only"> Puts Only
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<%= live_component BeastWeb.OptionLive.StockFilterComponent, data: @data %>
 
 <table class="styled-table">
   <thead>

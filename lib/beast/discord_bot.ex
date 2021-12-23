@@ -15,10 +15,10 @@ defmodule Beast.DiscordBot do
   end
 
   defp send_http_post(url, body) do
-    Logger.info("****** SENDING ALERT ****** #{inspect body} ")
+    # Logger.info("****** SENDING ALERT ****** #{inspect body} ")
     headers = [{"Content-type", "application/json"}]
     response = HTTPoison.post!(url, body, headers, [])
-    Logger.info("****** SENT ALERT ****** #{inspect response} ")
+    # Logger.info("****** SENT ALERT ****** #{inspect response} ")
   end
 
   defp send_alert(ticker) do

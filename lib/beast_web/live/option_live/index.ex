@@ -5,7 +5,9 @@ defmodule BeastWeb.OptionLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Beast.Polygon.subscribe()
-    {:ok, assign(socket, :data, %{options: fetch_options("all", "all"), filter: "all", type: "all"})}
+    {:ok, assign(socket, :data, %{options: fetch_options(nil),
+                                  filter: "all", type: "all",
+                                  stocks_filter: ""})}
   end
 
   @impl true
@@ -22,23 +24,31 @@ defmodule BeastWeb.OptionLive.Index do
   @impl true
   def handle_event("beast-range-only", _, socket) do
     {:noreply, update(socket, :data, fn data ->
-      %{data | filter: "beast-range", options: fetch_options(data.type, "beast-range")} end)}
+      %{data | filter: "beast-range", options: fetch_options(%{data | filter: "beast-range"})} end)}
   end
   def handle_event("all-options", _, socket) do
     {:noreply, update(socket, :data, fn data ->
-      %{data | filter: "all", options: fetch_options(data.type, "all")} end)}
+      %{data | filter: "all", options: fetch_options(%{data | filter: "all"})} end)}
   end
   def handle_event("all-types", _, socket) do
     {:noreply, update(socket, :data, fn data ->
-      %{data | type: "all", options: fetch_options("all", data.filter)} end)}
+      %{data | type: "all", options: fetch_options(%{data | type: "all"})} end)}
   end
   def handle_event("calls-only", _, socket) do
     {:noreply, update(socket, :data, fn data ->
-      %{data | type: "calls-only", options: fetch_options("calls-only", data.filter)} end)}
+      %{data | type: "calls-only", options: fetch_options(%{data | type: "calls-only"})} end)}
   end
   def handle_event("puts-only", _, socket) do
     {:noreply, update(socket, :data, fn data ->
-      %{data | type: "puts-only", options: fetch_options("puts-only", data.filter)} end)}
+      %{data | type: "puts-only", options: fetch_options(%{data | type: "puts-only"})} end)}
+  end
+  def handle_event("stocks_filter", %{"stocks_filter" => stocks_filter}, socket) do
+    {:noreply, update(socket, :data, fn data ->
+      %{data | stocks_filter: stocks_filter, options: fetch_options(%{data | stocks_filter: stocks_filter})} end)}
+  end
+  def handle_event(event, _, socket) do
+    Logger.error("**** Error handling event #{inspect event}. No matching handler")
+    {:noreply, update(socket, :data, fn data -> data end)}
   end
 
   @impl true
@@ -46,21 +56,31 @@ defmodule BeastWeb.OptionLive.Index do
     {:noreply, update(socket, :data, fn data -> %{data | options: options} end)}
   end
   @impl true
-  def handle_info({:update, option}, socket) do
+  def handle_info({:update, _option}, socket) do
     {:noreply, update(socket, :data, fn data ->
       options = Beast.Polygon.get_tickers()
                 |> filter_beast_options(data.filter)
                 |> filter_zero_values
                 |> filter_by_type(data.type)
+                |> filter_by_stocks(data.stocks_filter)
       %{data | options: options}
     end)}
   end
 
-  defp fetch_options(type, filter) do
+  defp fetch_options(nil), do: Beast.Polygon.get_tickers()
+  defp fetch_options(data) do
     Beast.Polygon.get_tickers()
-      |> filter_by_type(type)
-      |> filter_beast_options(filter)
+      |> filter_by_type(data.type)
+      |> filter_beast_options(data.filter)
       |> filter_zero_values
+      |> filter_by_stocks(data.stocks_filter)
+  end
+
+  defp filter_by_stocks(options, nil), do: options
+  defp filter_by_stocks(options, ""), do: options
+  defp filter_by_stocks(options, stocks_filter) do
+    stocks = String.split(stocks_filter, ",")
+    Enum.filter(options, fn option -> Enum.member?(stocks, String.downcase(option.stock)) end)
   end
 
   defp filter_by_type(options, type) do
