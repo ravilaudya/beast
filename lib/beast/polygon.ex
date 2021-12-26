@@ -6,7 +6,11 @@ defmodule Beast.Polygon do
 
   def get_tickers() do
     #tickers = [%{symbol: "O:MSFT211223P00315000", open: 0.0, volume: 1000, vwap: 0.0,  targets: "", readable_symbol: "MSFT211223P00315000", price: 0.0, stock: "MSFT", beast_low: 0.20, beast_high: 0.29},]
-    Beast.TickerAgent.tickers()
+    try do
+      Beast.TickerAgent.tickers()
+    rescue
+      _e -> []
+    end
   end
 
 
