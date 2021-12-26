@@ -17,8 +17,8 @@ defmodule BeastWeb.Router do
   scope "/", BeastWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    live "/options", OptionLive.Index, :index
+    # get "/", PageController, :index
+    live "/", OptionLive.Index, :index
     live "/options/new", OptionLive.Index, :new
     live "/options/:id/edit", OptionLive.Index, :edit
 
