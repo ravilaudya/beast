@@ -11,7 +11,7 @@ defmodule Beast.DiscordBot do
   end
 
   defp option_alert_alpha_text(ticker) do
-    "**#{ticker.readable_symbol}**  @   **#{ticker.price}**  in Range [#{ticker.beast_low} - #{ticker.beast_high}],   vwap: **#{ticker.vwap}**,    volume:   **#{ticker.volume}**"
+    "**#{ticker.readable_symbol}**  @   **#{ticker.price}**  in Range [#{ticker.beast_low} - #{ticker.beast_high}],   vwap: #{ticker.vwap},    volume:   #{ticker.volume},   OI: #{ticker.open_interest}"
   end
 
   defp option_alert_text(ticker) do
