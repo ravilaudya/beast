@@ -7,7 +7,7 @@ defmodule BeastWeb.OptionLive.StockFilterComponent do
       <form phx-submit="stocks_filter">
         <input type="text" name="stocks_filter" value="" />
         <button type="submit">Submit</button>
-        <b>Selected filters: <%= @data.stocks_filter %> </b>
+        <b>Selected stocks: <%= @data.stocks_filter %> </b>
       </form>
     """
   end
