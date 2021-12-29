@@ -56,7 +56,7 @@ defmodule Beast.DiscordBot do
         nil -> send_alert(ticker)
         _ ->
           current_time = timestamp()
-          if current_time >= last_alerted_at + 1800 do
+          if current_time >= last_alerted_at + 3600 do
             send_alert(ticker)
           else
             ticker
