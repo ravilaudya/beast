@@ -3,6 +3,7 @@ defmodule BeastWeb.UserSessionController do
 
   alias Beast.Accounts
   alias BeastWeb.UserAuth
+  require Logger
 
   def new(conn, _params) do
     render(conn, "new.html", error_message: nil)
