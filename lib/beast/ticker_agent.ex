@@ -69,22 +69,32 @@ defmodule Beast.TickerAgent do
     Logger.info("**** FETCHING OPTION DETAILS FOR : #{ticker.stock}, #{ticker.symbol}")
     url = "https://api.polygon.io/v3/snapshot/options/#{ticker.stock}/#{ticker.symbol}?apiKey=X5ndpVseKPBdJ6MbIyiaB1tvqJBmcHSe"
     response = HTTPoison.get!(url)
-    resp = Poison.decode!(response.body)
-    # Logger.info("***** GOT RESPONSE: #{inspect resp}")
-    %{ticker | price: Map.get(resp, "results")
+    resp = try do
+              Poison.decode!(response.body)
+           rescue
+            _e ->
+              Logger.error("Error parsing the response: #{response.body}")
+              nil
+           end
+    if resp do
+      # Logger.info("***** GOT RESPONSE: #{inspect resp}")
+      %{ticker | price: Map.get(resp, "results")
+                        |> Map.get("day")
+                        |> Map.get("close"),
+                open: Map.get(resp, "results")
                       |> Map.get("day")
-                      |> Map.get("close"),
-               open: Map.get(resp, "results")
-                     |> Map.get("day")
-                     |> Map.get("open"),
-               vwap: Map.get(resp, "results")
-                     |> Map.get("day")
-                     |> Map.get("vwap"),
-               volume: Map.get(resp, "results")
-                     |> Map.get("day")
-                     |> Map.get("volume"),
-               open_interest: Map.get(resp, "results")
-                              |> Map.get("open_interest")}
+                      |> Map.get("open"),
+                vwap: Map.get(resp, "results")
+                      |> Map.get("day")
+                      |> Map.get("vwap"),
+                volume: Map.get(resp, "results")
+                      |> Map.get("day")
+                      |> Map.get("volume"),
+                open_interest: Map.get(resp, "results")
+                                |> Map.get("open_interest")}
+    else
+      nil
+    end
   end
 
   def start_link(_initial_value) do
@@ -111,6 +121,7 @@ defmodule Beast.TickerAgent do
     tickers = Enum.map tickers, fn ticker ->
       fetch_option_detail(ticker)
     end
+    tickers = Enum.filter tickers, fn ticker -> ticker end
     Logger.warn("STARTING TICKERS...#{inspect tickers}")
     Agent.start_link(fn -> tickers end, name: __MODULE__)
   end
