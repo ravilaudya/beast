@@ -4,13 +4,15 @@ defmodule BeastWeb.OptionLive.StockFilterComponent do
 
   def render(assigns) do
     ~H"""
-      <form phx-submit="stocks_filter">
-        Filter Stocks: <input type="text" name="stocks_filter" value="" />
-        <button type="submit">Submit</button>
-        <%= if not (@data.stocks_filter == "") do %>
-          <b>Selected stocks: <%= @data.stocks_filter %> </b>
-        <% end %>
-      </form>
+      <div class="stock-filter">
+        <form phx-submit="stocks_filter">
+          <b>Filter Stocks</b> <input type="text" name="stocks_filter" value="" style="width:30%" placeholder="comma separated symbols" />
+          <button type="submit">Submit</button>
+          <%= if not (@data.stocks_filter == "") do %>
+            <b>Selected stocks: <%= @data.stocks_filter %> </b>
+          <% end %>
+        </form>
+      </div>
     """
   end
 

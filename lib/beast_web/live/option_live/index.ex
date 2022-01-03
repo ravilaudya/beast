@@ -5,7 +5,13 @@ defmodule BeastWeb.OptionLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Beast.Polygon.subscribe()
-    {:ok, assign(socket, :data, %{options: fetch_options(nil),
+    options =
+    try do
+      fetch_options(nil)
+    rescue
+      _e -> []
+    end
+    {:ok, assign(socket, :data, %{options: options,
                                   filter: "all", type: "all",
                                   stocks_filter: ""})}
   end
