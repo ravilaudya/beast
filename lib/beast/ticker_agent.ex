@@ -104,7 +104,9 @@ defmodule Beast.TickerAgent do
       list = String.split(line)
       option_detail = generate_symbol(Enum.at(list, 0))
       targets = generate_targets(list)
-      %{symbol: option_detail.option_symbol,
+      beast_low = safe_parse_float(Enum.at(list, 3))
+      beast_high = safe_parse_float(Enum.at(list, 5))
+        %{symbol: option_detail.option_symbol,
         stock: option_detail.stock,
         readable_symbol: Enum.at(list, 0),
         price: 0.0,
@@ -113,9 +115,12 @@ defmodule Beast.TickerAgent do
         type: option_detail.option_type,
         open_interest: 0,
         volume: 0,
+        touched_beast_range?: false,
+        touched_beast_range_now?: false,
         last_alerted_at: nil,
-        beast_low: safe_parse_float(Enum.at(list, 3)),
-        beast_high: safe_parse_float(Enum.at(list, 5)),
+        last_breakout_alerted_at: nil,
+        beast_low: beast_low,
+        beast_high: beast_high,
         targets: targets}
     end)
     tickers = Enum.map tickers, fn ticker ->
