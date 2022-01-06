@@ -61,7 +61,7 @@ defmodule Beast.DiscordBot do
     if (ticker.last_alerted_at == nil) or (current_time >= ticker.last_alerted_at + 3600) do
       # Logger.warn("**** Sending NORMAL ALERT message ***** - #{inspect option_alert_alpha_text(ticker)}")
       send_alpha_alerts(ticker)
-      send_pt_alerts(ticker)
+      # send_pt_alerts(ticker)
     end
     ticker
   end
