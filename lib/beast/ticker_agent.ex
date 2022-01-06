@@ -73,7 +73,7 @@ defmodule Beast.TickerAgent do
               Poison.decode!(response.body)
            rescue
             _e ->
-              Logger.error("Error parsing the response: #{response.body}")
+              Logger.error("Error parsing the response: #{inspect response}")
               nil
            end
     if resp do
