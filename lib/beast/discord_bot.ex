@@ -76,7 +76,7 @@ defmodule Beast.DiscordBot do
   end
 
   defp is_breakout(ticker) do
-    breakout? = ticker.touched_beast_range? and (ticker.price > ticker.beast_high) and (not ticker.touched_beast_range_now?)
+    breakout? = (ticker.no_of_updates >= 4) and ticker.touched_beast_range? and (ticker.price > ticker.beast_high) and (not ticker.touched_beast_range_now?)
     # Logger.warn("**** TICKER BROKE OUT?***** #{inspect breakout?}  - #{inspect ticker.symbol}")
     breakout?
   end

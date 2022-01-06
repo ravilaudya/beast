@@ -119,6 +119,7 @@ defmodule Beast.TickerAgent do
         touched_beast_range_now?: false,
         last_alerted_at: nil,
         last_breakout_alerted_at: nil,
+        no_of_updates: 0,
         beast_low: beast_low,
         beast_high: beast_high,
         targets: targets}

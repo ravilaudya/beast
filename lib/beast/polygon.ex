@@ -54,11 +54,13 @@ defmodule Beast.Polygon do
     # beast_range_high = ticker.beast_high + (ticker.beast_high * 0.20)
     touched_beast_range? = (ticker.beast_low <= window_close) and (window_close  <= ticker.beast_high)
     touched_beast_range_now? = (touched_beast_range? and (not ticker.touched_beast_range?))
+    no_of_updates = ticker.no_of_updates + 1
     touched_beast_range? = (ticker.touched_beast_range? or touched_beast_range?)
     # Logger.warn("touched beast range?: #{inspect touched_beast_range?} #{inspect touched_beast_range_now?} #{ticker.symbol}, price: #{inspect window_close}")
     updated_ticker = %{ticker | price: window_close, open: open, volume: av, vwap: vwap,
                                 touched_beast_range?: touched_beast_range?,
-                                touched_beast_range_now?: touched_beast_range_now?}
+                                touched_beast_range_now?: touched_beast_range_now?,
+                                no_of_updates: no_of_updates}
                     |> Beast.DiscordBot.alert
     Beast.TickerAgent.update(updated_ticker)
     broadcast({:update, updated_ticker})
