@@ -53,7 +53,8 @@ defmodule Beast.MixProject do
       {:websockex, "~> 0.4.3"},
       {:elephant, "~> 0.1.0"},
       {:httpoison, "~> 1.8"},
-      {:poison, "~> 5.0"}
+      {:poison, "~> 5.0"},
+      {:timex, "~> 3.0"}
     ]
   end
 
