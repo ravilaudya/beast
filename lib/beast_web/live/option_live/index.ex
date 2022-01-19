@@ -12,9 +12,11 @@ defmodule BeastWeb.OptionLive.Index do
       _e -> []
     end
     updated_at = Beast.TickerAgent.last_updated_at()
+    tos_study = Beast.TickerAgent.tos_study()
     {:ok, assign(socket, :data, %{options: options,
                                   filter: "all", type: "all",
                                   last_updated_at: updated_at,
+                                  tos_study: tos_study,
                                   stocks_filter: ""})}
   end
 

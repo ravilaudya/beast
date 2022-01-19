@@ -129,12 +129,11 @@ defmodule Beast.TickerAgent do
     end
     tickers = Enum.filter tickers, fn ticker -> ticker end
     Logger.warn("STARTING TICKERS...#{inspect tickers}")
-    datetime_utc = DateTime.utc_now()
     datetime =
       DateTime.utc_now()
       |> Timex.shift(hours: -5)
       |> Timex.format!("{RFC1123}")
-    Agent.start_link(fn -> %{tickers: tickers, last_updated_at: datetime} end, name: __MODULE__)
+    Agent.start_link(fn -> %{tickers: tickers, last_updated_at: datetime, tos_study: "http://tos.mx/Mam8I33"} end, name: __MODULE__)
   end
 
   def tickers() do
@@ -143,6 +142,10 @@ defmodule Beast.TickerAgent do
 
   def last_updated_at() do
     Agent.get(__MODULE__, fn data -> data.last_updated_at end)
+  end
+
+  def tos_study() do
+    Agent.get(__MODULE__, fn data -> data.tos_study end)
   end
 
   def update(ticker) do

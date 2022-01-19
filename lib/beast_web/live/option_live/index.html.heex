@@ -29,7 +29,11 @@
   <% end %>
 </ul>
 <%= live_component BeastWeb.OptionLive.StockFilterComponent, data: @data %>
-<div style="float: left">Updated @ <b><%= @data.last_updated_at %></b></div>
+<div style="float: left; padding: 5px">
+<span>Updated @ <b><%= @data.last_updated_at %></b> </span>
+&nbsp;&nbsp;&nbsp;
+<span>TOS Study @ <b><%= @data.tos_study %></b></span>
+</div>
 
 <table class="styled-table">
   <thead>

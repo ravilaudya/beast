@@ -48,46 +48,46 @@ bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
 end)
 study = "#{bl_study.study} else 0.0;\n"
 
-# study = "#{study} def TP1 = "
-# bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
-#   prefix = if (acc.counter == 0), do: "", else: "      else "
-#   %{acc | counter: acc.counter + 1,
-#           study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 0)}\n"}
-# end)
-# study = "#{bl_study.study} else 0.0;\n"
+study = "#{study} def TP1 = "
+bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
+  prefix = if (acc.counter == 0), do: "", else: "      else "
+  %{acc | counter: acc.counter + 1,
+          study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 0)}\n"}
+end)
+study = "#{bl_study.study} else 0.0;\n"
 
-# study = "#{study} def TP2 = "
-# bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
-#   prefix = if (acc.counter == 0), do: "", else: "      else "
-#   %{acc | counter: acc.counter + 1,
-#           study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 1)}\n"}
-# end)
-# study = "#{bl_study.study} else 0.0;\n"
-
-
-# study = "#{study} def TP3 = "
-# bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
-#   prefix = if (acc.counter == 0), do: "", else: "      else "
-#   %{acc | counter: acc.counter + 1,
-#           study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 2)}\n"}
-# end)
-# study = "#{bl_study.study} else 0.0;\n"
+study = "#{study} def TP2 = "
+bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
+  prefix = if (acc.counter == 0), do: "", else: "      else "
+  %{acc | counter: acc.counter + 1,
+          study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 1)}\n"}
+end)
+study = "#{bl_study.study} else 0.0;\n"
 
 
-# study = "#{study} def TP4 = "
-# bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
-#   prefix = if (acc.counter == 0), do: "", else: "      else "
-#   %{acc | counter: acc.counter + 1,
-#           study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 3)}\n"}
-# end)
-# study = "#{bl_study.study} else 0.0;\n"
+study = "#{study} def TP3 = "
+bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
+  prefix = if (acc.counter == 0), do: "", else: "      else "
+  %{acc | counter: acc.counter + 1,
+          study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 2)}\n"}
+end)
+study = "#{bl_study.study} else 0.0;\n"
 
-# study = "#{study} def TP5 = "
-# bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
-#   prefix = if (acc.counter == 0), do: "", else: "      else "
-#   %{acc | counter: acc.counter + 1,
-#           study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 4)}\n"}
-# end)
-# study = "#{bl_study.study} else 0.0;\n"
+
+study = "#{study} def TP4 = "
+bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
+  prefix = if (acc.counter == 0), do: "", else: "      else "
+  %{acc | counter: acc.counter + 1,
+          study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 3)}\n"}
+end)
+study = "#{bl_study.study} else 0.0;\n"
+
+study = "#{study} def TP5 = "
+bl_study = Enum.reduce(tickers, %{counter: 0, study: study}, fn ticker, acc ->
+  prefix = if (acc.counter == 0), do: "", else: "      else "
+  %{acc | counter: acc.counter + 1,
+          study: "#{acc.study} #{prefix} if (GetSymbol() == \"#{ticker.symbol}\") then #{Enum.at(ticker.targets, 4)}\n"}
+end)
+study = "#{bl_study.study} else 0.0;\n"
 
 IO.puts(study)
