@@ -1,14 +1,14 @@
-<h1>Beast Options</h1>
+<h1>Options Range</h1>
 
 <ul class="inline-nav">
   <div style="float: left">
     <span><b> Options </b></span>
     <%= if @data.filter == "all" do %>
       <li><input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options" checked> All</li>
-      <li><input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only"> In Beast Range Only</li>
+      <li><input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only"> In Range Only</li>
     <% else %>
       <li><input type="radio" phx-click="all-options" id="all_options" name="option_filter" value="all_options"> All</li>
-      <li><input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only" checked> In Beast Range Only</li>
+      <li><input type="radio" phx-click="beast-range-only" id="beast_only" name="option_filter" value="beast_only" checked> In Range Only</li>
     <% end %>
   </div>
   <span><b> Option Type </b></span>
@@ -40,7 +40,7 @@
     <tr>
       <th>Option</th>
       <th>Price</th>
-      <th>Beast Range</th>
+      <th>Range</th>
       <th>Open</th>
       <th>VWAP</th>
       <th>Open Interest</th>

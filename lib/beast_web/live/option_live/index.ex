@@ -27,7 +27,7 @@ defmodule BeastWeb.OptionLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Beast Options")
+    |> assign(:page_title, "Options Range")
     |> assign(:option, nil)
   end
 
