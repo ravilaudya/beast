@@ -133,7 +133,7 @@ defmodule Beast.TickerAgent do
       DateTime.utc_now()
       |> Timex.shift(hours: -5)
       |> Timex.format!("{RFC1123}")
-    Agent.start_link(fn -> %{tickers: tickers, last_updated_at: datetime, tos_study: "http://tos.mx/kEjj39P"} end, name: __MODULE__)
+    Agent.start_link(fn -> %{tickers: tickers, last_updated_at: datetime, tos_study: "http://tos.mx/3qO8OrL"} end, name: __MODULE__)
   end
 
   def tickers() do
